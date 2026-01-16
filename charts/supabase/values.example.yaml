@@ -34,7 +34,6 @@ db:
     initialDelaySeconds: 3
   service:
     type: ClusterIP
-  serviceName: "supabase-db-service"
   persistence:
     enabled: false
 

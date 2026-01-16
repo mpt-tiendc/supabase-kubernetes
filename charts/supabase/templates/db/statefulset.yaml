@@ -9,6 +9,7 @@ spec:
   {{- if not .Values.db.autoscaling.enabled }}
   replicas: {{ .Values.db.replicaCount }}
   {{- end }}
+  serviceName: {{ .Values.db.serviceName }}
   selector:
     matchLabels:
       {{- include "supabase.db.selectorLabels" . | nindent 6 }}

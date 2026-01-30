@@ -94,15 +94,16 @@ secret:
     # secretRef: ""
     secretRefKey:
       cryptoKey: cryptoKey
+  # GitSync credentials for Functions
   gitSync:
-    # username: ""
-    # password: ""
+    username: "abc"
+    password: "1234"
     # specify existing secret, which takes precedence over variable above
     # secretRef: ""
     # override secret keys for existing secret refs
     secretRefKey:
-      username: username
-      password: password
+      usernameKey: username
+      passwordKey: password
 
 # Optional: Postgres Database
 # A standalone Postgres database configured to work with Supabase services.

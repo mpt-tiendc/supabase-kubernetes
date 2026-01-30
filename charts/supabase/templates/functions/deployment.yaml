@@ -162,7 +162,7 @@ spec:
                 secretKeyRef:
                   {{- if .Values.secret.gitSync.secretRef }}
                   name: {{ .Values.secret.gitSync.secretRef }}
-                  key: {{ .Values.secret.gitSync.secretRefKey.username | default "username" }}
+                  key: {{ .Values.secret.gitSync.secretRefKey.usernameKey | default "username" }}
                   {{- else }}
                   name: {{ include "supabase.secret.gitSync" . }}
                   key: username
@@ -172,7 +172,7 @@ spec:
                 secretKeyRef:
                   {{- if .Values.secret.gitSync.secretRef }}
                   name: {{ .Values.secret.gitSync.secretRef }}
-                  key: {{ .Values.secret.gitSync.secretRefKey.password | default "password" }}
+                  key: {{ .Values.secret.gitSync.secretRefKey.passwordKey | default "password" }}
                   {{- else }}
                   name: {{ include "supabase.secret.gitSync" . }}
                   key: password

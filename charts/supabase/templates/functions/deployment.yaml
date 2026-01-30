@@ -136,7 +136,7 @@ spec:
             - mountPath: /home/deno/functions/main/index.ts
               name: functions-main
               subPath: index.ts
-            - mountPath: /home/deno/functions/edges
+            - mountPath: /home/deno/edges
               name: functions-data
           {{- with .Values.functions.resources }}
           resources:
@@ -179,7 +179,7 @@ spec:
                   {{- end }}
           volumeMounts:
             - name: functions-data
-              mountPath: "{{ .Values.functions.gitSync.syncRoot }}/{{ .Values.functions.gitSync.syncPath }}"
+              mountPath: "{{ .Values.functions.gitSync.syncRoot }}"
       volumes:
         {{- with .Values.functions.volumes }}
           {{- toYaml . | nindent 8 }}

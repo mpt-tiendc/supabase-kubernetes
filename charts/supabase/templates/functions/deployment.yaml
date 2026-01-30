@@ -133,7 +133,7 @@ spec:
             {{- with .Values.functions.volumeMounts }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
-            - mountPath: /home/deno/functions/main/index.ts
+            - mountPath: /home/deno/main/index.ts
               name: functions-main
               subPath: index.ts
             - mountPath: /home/deno/functions

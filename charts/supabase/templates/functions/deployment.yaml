@@ -136,10 +136,50 @@ spec:
             - mountPath: /home/deno/functions/main/index.ts
               name: functions-main
               subPath: index.ts
+            - mountPath: /home/deno/functions
+              name: functions-data
           {{- with .Values.functions.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          # Sidecar tự động sync code từ Git
+        - name: {{ include "supabase.functions.name" $ }}-git-sync
+          image: "{{ .Values.functions.gitSync.repository }}:{{ .Values.functions.gitSync.tag }}"
+          imagePullPolicy: {{ .Values.functions.gitSync.pullPolicy }}
+          env:
+            - name: GIT_SYNC_REPO
+              value: "{{ .Values.functions.gitSync.syncRepository }}"
+            - name: GIT_SYNC_BRANCH
+              value: "{{ .Values.functions.gitSync.syncBranch }}"
+            - name: GIT_SYNC_ROOT
+              value: "{{ .Values.functions.gitSync.syncRoot }}"
+            - name: GIT_SYNC_LINK
+              value: "{{ .Values.functions.gitSync.syncPath }}" # Tạo symbolic link để trỏ vào code
+            - name: GIT_SYNC_WAIT
+              value: "{{ .Values.functions.gitSync.syncWait }}" # Check mỗi 60 giây
+            - name: GIT_SYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.secret.gitSync.secretRef }}
+                  name: {{ .Values.secret.gitSync.secretRef }}
+                  key: {{ .Values.secret.gitSync.secretRefKey.username | default "username" }}
+                  {{- else }}
+                  name: {{ include "supabase.secret.gitSync" . }}
+                  key: username
+                  {{- end }}
+            - name: GIT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.secret.gitSync.secretRef }}
+                  name: {{ .Values.secret.gitSync.secretRef }}
+                  key: {{ .Values.secret.gitSync.secretRefKey.password | default "password" }}
+                  {{- else }}
+                  name: {{ include "supabase.secret.gitSync" . }}
+                  key: password
+                  {{- end }}
+          volumeMounts:
+            - name: functions-data
+              mountPath: {{ .Values.functions.gitSync.syncRoot }}
       volumes:
         {{- with .Values.functions.volumes }}
           {{- toYaml . | nindent 8 }}
@@ -147,6 +187,8 @@ spec:
         - name: functions-main
           configMap:
             name: {{ include "supabase.functions.fullname" . }}-main
+        - name: functions-data
+          emptyDir: {}
       {{- with .Values.functions.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

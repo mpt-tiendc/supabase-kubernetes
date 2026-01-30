@@ -20,6 +20,9 @@ secret:
     secretKeyBase: UpNVntn3cDxHJpq99YMc1T1AQgQpc8kfYTuRgBiYa15BLrx8etQoXz3gZv1/u2oq
   meta:
     cryptoKey: "your-super-secret-and-long-crypto-key"
+  gitsync:
+    username: git-user
+    password: git-password
 
 db:
   enabled: true
@@ -154,3 +157,5 @@ vector:
 functions:
   image:
     tag: v1.68.4
+  gitSync:
+    syncRepository: "https://github.com/your-repository/edge-functions.git"

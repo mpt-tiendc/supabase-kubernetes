@@ -185,6 +185,14 @@ data:
               - /functions/v1/
         plugins:
           - name: cors
+          - name: key-auth # Bổ sung để xác thực qua Anon/Service Key
+            config:
+              hide_credentials: true
+          - name: acl
+            config:
+              allow:
+                - admin
+                - anon
     {{- end }}
     {{- if .Values.analytics.enabled }}
       - name: analytics-v1

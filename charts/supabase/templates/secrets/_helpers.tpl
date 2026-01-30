@@ -69,3 +69,9 @@ Check if both s3 keys are valid
 {{- printf "false" -}}
 {{- end -}}
 {{- end -}}
+
+Expand the name of the git sync secret.
+*/}}
+{{- define "supabase.secret.gitSync" -}}
+{{- printf "%s-git-sync" (include "supabase.fullname" .) }}
+{{- end -}}

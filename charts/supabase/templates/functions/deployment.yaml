@@ -147,17 +147,17 @@ spec:
           image: "{{ .Values.functions.gitSync.repository }}:{{ .Values.functions.gitSync.tag }}"
           imagePullPolicy: {{ .Values.functions.gitSync.pullPolicy }}
           env:
-            - name: GIT_SYNC_REPO
+            - name: GITSYNC_REPO
               value: "{{ .Values.functions.gitSync.syncRepository }}"
-            - name: GIT_SYNC_BRANCH
+            - name: GITSYNC_BRANCH
               value: "{{ .Values.functions.gitSync.syncBranch }}"
-            - name: GIT_SYNC_ROOT
+            - name: GITSYNC_ROOT
               value: "{{ .Values.functions.gitSync.syncRoot }}"
-            - name: GIT_SYNC_LINK
+            - name: GITSYNC_LINK
               value: "{{ .Values.functions.gitSync.syncPath }}" # Tạo symbolic link để trỏ vào code
-            - name: GIT_SYNC_WAIT
+            - name: GITSYNC_WAIT
               value: "{{ .Values.functions.gitSync.syncWait }}" # Check mỗi 60 giây
-            - name: GIT_SYNC_USERNAME
+            - name: GITSYNC_USERNAME
               valueFrom:
                 secretKeyRef:
                   {{- if .Values.secret.gitSync.secretRef }}
@@ -167,7 +167,7 @@ spec:
                   name: {{ include "supabase.secret.gitSync" . }}
                   key: username
                   {{- end }}
-            - name: GIT_SYNC_PASSWORD
+            - name: GITSYNC_PASSWORD
               valueFrom:
                 secretKeyRef:
                   {{- if .Values.secret.gitSync.secretRef }}
